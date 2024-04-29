@@ -14,6 +14,7 @@ public class SemParalelismo {
         arquivos = diretorio.listFiles();
 
         long tempoInicial = System.currentTimeMillis();
+        long tempoFinal = 0;
 
         for (int i = 0; i < arquivos.length; i++) {
             try {
@@ -24,6 +25,8 @@ public class SemParalelismo {
                     if (nome.equals(scan.nextLine())) {
                         JOptionPane.showMessageDialog(null,
                                 "Nome Encontrado" + "\nArquivo: " + arquivos[i].getName() + "\nLinha: " + linha);
+                        tempoFinal = System.currentTimeMillis();
+                        break;
                     }
                 }
                 scan.close();
@@ -32,6 +35,6 @@ public class SemParalelismo {
             }
         }
 
-        System.out.println("O método foi executado em " + (System.currentTimeMillis() - tempoInicial)+"ms");
+        System.out.println("O método foi executado em " + (tempoFinal - tempoInicial)+"ms");
     }
 }
