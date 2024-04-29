@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import static java.lang.Thread.sleep;
+
 public class Thread implements Runnable {
 
     File arquivo;
@@ -28,11 +30,14 @@ public class Thread implements Runnable {
                             "Nome Encontrado" + "\nArquivo: " + arquivo.getName() + "\nLinha: " + linha);
                     tempoFinal = System.currentTimeMillis();
                 }
+                sleep(1000);
             }
             scan.close();
             System.out.println("O método foi executado em " + (tempoFinal - tempoInicial) + "ms");
         } catch (FileNotFoundException e) {
             JOptionPane.showConfirmDialog(null, "Arquivo não encontrado");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }

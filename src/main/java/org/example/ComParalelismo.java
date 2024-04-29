@@ -11,4 +11,5 @@ public class ComParalelismo {
         File diretorio = new File("arquivoTXT");
         arquivos = diretorio.listFiles();
 
+    }
 }
