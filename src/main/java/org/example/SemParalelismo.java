@@ -28,9 +28,10 @@ public class SemParalelismo {
                 while (scan.hasNextLine()) {
                     linha++;
                     if (nome.equals(scan.nextLine())) {
+                        tempoFinal = System.currentTimeMillis();
+                        System.out.println("O método foi executado em " + (tempoFinal - tempoInicial)+"ms");
                         JOptionPane.showMessageDialog(null,
                                 "Nome Encontrado" + "\nArquivo: " + arquivos[i].getName() + "\nLinha: " + linha);
-                        tempoFinal = System.currentTimeMillis();
                         encontrado = true;
                         break;
                     }
@@ -40,6 +41,5 @@ public class SemParalelismo {
                 JOptionPane.showConfirmDialog(null, "Arquivo não encontrado");
             }
         }
-        System.out.println("O método foi executado em " + (tempoFinal - tempoInicial)+"ms");
     }
 }
