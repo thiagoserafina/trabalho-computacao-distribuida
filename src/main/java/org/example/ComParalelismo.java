@@ -7,10 +7,14 @@ import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ComParalelismo {
-    private static AtomicBoolean encontrado = new AtomicBoolean(false);
+    private static final AtomicBoolean encontrado = new AtomicBoolean(false);
 
     public static void main(String[] args) {
         String nome = JOptionPane.showInputDialog("Informe um Nome para a Busca");
+
+        if (nome == null || nome.isEmpty()) {
+            System.exit(0);
+        }
 
         File[] arquivos;
         File diretorio = new File("arquivoTXT");
@@ -31,7 +35,7 @@ public class ComParalelismo {
             try {
                 thread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.err.println(e);
             }
         }
 
@@ -43,7 +47,7 @@ public class ComParalelismo {
         }
 
         if (!encontrado.get()) {
-            JOptionPane.showMessageDialog(null, "Nome não encontrado");
+            JOptionPane.showMessageDialog(null, "Nome não encontrado", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
 }

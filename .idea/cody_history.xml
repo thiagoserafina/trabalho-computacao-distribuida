@@ -88,6 +88,78 @@
           </messages>
           <updatedAt value="2024-04-29T21:38:47.3994418" />
         </chat>
+        <chat>
+          <accountId value="VXNlcjo0MDk1MDI=" />
+          <internalId value="d0e0c2b6-8f77-4e7c-9e9d-3b1239f36379" />
+          <llm>
+            <llm>
+              <model value="anthropic/claude-3-sonnet-20240229" />
+              <provider value="Anthropic" />
+              <title value="Claude 3 Sonnet" />
+            </llm>
+          </llm>
+          <messages>
+            <list>
+              <message>
+                <speaker value="HUMAN" />
+                <text value="Review the shared code context and configurations to identify the test framework and libraries in use. Then, generate a suite of multiple unit tests for the functions in &lt;selected&gt; using the detected test framework and libraries. Be sure to import the function being tested. Follow the same patterns as any shared context. Only add packages, imports, dependencies, and assertions if they are used in the shared code. Pay attention to the file path of each shared context to see if test for &lt;selected&gt; already exists. If one exists, focus on generating new unit tests for uncovered cases. If none are detected, import common unit test libraries for {languageName}. Focus on validating key functionality with simple and complete assertions. Only include mocks if one is detected in the shared code. Before writing the tests, identify which test libraries and frameworks to import, e.g. 'No new imports needed - using existing libs' or 'Importing test framework that matches shared context usage' or 'Importing the defined framework', etc. Then briefly summarize test coverage and any limitations. At the end, enclose the full completed code for the new unit tests, including all necessary imports, in a single markdown codeblock. No fragments or TODO. The new tests should validate expected functionality and cover edge cases for &lt;selected&gt; with all required imports, including importing the function being tested. Do not repeat existing tests." />
+              </message>
+              <message>
+                <speaker value="ASSISTANT" />
+                <text value="No test framework or libraries detected in the shared Java code context. &#10;&#10;Importing JUnit 5 for unit testing:&#10;&#10;```java&#10;import static org.junit.jupiter.api.Assertions.*;&#10;import org.junit.jupiter.api.Test;&#10;&#10;import util.Threads.Leitor;&#10;&#10;class LeitorTest {&#10;&#10;  @Test&#10;  void testRun_nomeEncontrado() {&#10;    Leitor leitor = new Leitor();&#10;    // Set up mocks and call leitor.run() &#10;    // Assert expected behavior when nome is found&#10;  }&#10;&#10;  @Test &#10;  void testRun_nomeNaoEncontrado() {&#10;    Leitor leitor = new Leitor();&#10;    // Set up mocks and call leitor.run()&#10;    // Assert expected behavior when nome is not found&#10;  }&#10;&#10;  @Test&#10;  void testRun_arquivoNaoEncontrado() {&#10;    Leitor leitor = new Leitor();&#10;    // Set up mocks and call leitor.run()&#10;    // Assert expected behavior when arquivo is not found&#10;  }&#10;}&#10;```&#10;&#10;The generated tests validate basic happy path and error handling in Leitor.run(). Mocks would need to be implemented for the file, UI, and other dependencies. Additional edge cases could be covered related to threading, interrupts, and more. The tests focus on validating the core logic and expected behavior using JUnit assertions." />
+              </message>
+              <message>
+                <speaker value="HUMAN" />
+                <text value="arrume" />
+              </message>
+              <message>
+                <speaker value="ASSISTANT" />
+                <text value="Aqui está uma versão revisada dos testes unitários para a classe `Leitor` usando JUnit 5 e Mockito:&#10;&#10;```java&#10;import static org.junit.jupiter.api.Assertions.*;&#10;import static org.mockito.Mockito.*;&#10;&#10;import java.io.File;&#10;import java.io.FileNotFoundException;&#10;import java.util.Scanner;&#10;import java.util.concurrent.atomic.AtomicBoolean;&#10;&#10;import javax.swing.JOptionPane;&#10;&#10;import org.junit.jupiter.api.BeforeEach;&#10;import org.junit.jupiter.api.Test;&#10;import org.mockito.Mock;&#10;import org.mockito.MockitoAnnotations;&#10;&#10;class LeitorTest {&#10;&#10;    @Mock&#10;    private File arquivo;&#10;&#10;    @Mock&#10;    private Scanner scanner;&#10;&#10;    private Leitor leitor;&#10;    private AtomicBoolean encontrado;&#10;&#10;    @BeforeEach&#10;    void setUp() throws FileNotFoundException {&#10;        MockitoAnnotations.openMocks(this);&#10;        encontrado = new AtomicBoolean(false);&#10;        leitor = new Leitor(&quot;nome&quot;, arquivo, encontrado);&#10;        when(arquivo.getName()).thenReturn(&quot;arquivo.txt&quot;);&#10;    }&#10;&#10;    @Test&#10;    void testRun_nomeEncontrado() {&#10;        when(scanner.hasNextLine()).thenReturn(true, true, false);&#10;        when(scanner.nextLine()).thenReturn(&quot;linha1&quot;, &quot;nome&quot;, &quot;linha3&quot;);&#10;&#10;        leitor.run();&#10;&#10;        assertTrue(encontrado.get());&#10;        verify(JOptionPane.class, times(1)).showMessageDialog(null, startsWith(&quot;Nome Encontrado&quot;));&#10;    }&#10;&#10;    @Test&#10;    void testRun_nomeNaoEncontrado() {&#10;        when(scanner.hasNextLine()).thenReturn(true, true, false);&#10;        when(scanner.nextLine()).thenReturn(&quot;linha1&quot;, &quot;linha2&quot;, &quot;linha3&quot;);&#10;&#10;        leitor.run();&#10;&#10;        assertFalse(encontrado.get());&#10;        verify(JOptionPane.class, never()).showMessageDialog(any());&#10;    }&#10;&#10;    @Test&#10;    void testRun_arquivoNaoEncontrado() throws FileNotFoundException {&#10;        when(arquivo.getName()).thenThrow(FileNotFoundException.class);&#10;&#10;        leitor.run();&#10;&#10;        assertFalse(encontrado.get());&#10;        verify(JOptionPane.class, times(1)).showConfirmDialog(null, &quot;Arquivo não encontrado&quot;);&#10;    }&#10;}&#10;```&#10;&#10;Explicação:&#10;&#10;- Importamos as classes necessárias, incluindo `Mockito` para criar mocks.&#10;- Anotamos `arquivo` e `scanner` com `@Mock` para criar mocks desses objetos.&#10;- No método `setUp`, inicializamos os mocks usando `MockitoAnnotations.openMocks(this)` e configuramos o comportamento padrão do mock `arquivo.getName()`.&#10;- No teste `testRun_nomeEncontrado`, configuramos o comportamento dos mocks `scanner.hasNextLine()` e `scanner.nextLine()` para simular a situação em que o nome é encontrado. Verificamos se `encontrado` é `true` e se o diálogo é exibido corretamente.&#10;- No teste `testRun_nomeNaoEncontrado`, configuramos os mocks para simular a situação em que o nome não é encontrado. Verificamos se `encontrado` é `false` e se nenhum diálogo é exibido.&#10;- No teste `testRun_arquivoNaoEncontrado`, configuramos o mock `arquivo.getName()` para lançar uma `FileNotFoundException`. Verificamos se `encontrado` é `false` e se o diálogo de arquivo não encontrado é exibido corretamente.&#10;&#10;Esses testes cobrem os principais casos de uso da classe `Leitor` e utilizam mocks para simular as dependências externas, como o arquivo e o scanner. Observe que você precisará adicionar as dependências do Mockito ao seu projeto para executar esses testes." />
+              </message>
+            </list>
+          </messages>
+          <updatedAt value="2024-04-29T22:40:18.9589303" />
+        </chat>
+        <chat>
+          <accountId value="VXNlcjo0MDk1MDI=" />
+          <internalId value="d82fe56f-a3fd-4a95-9277-84525d60cf1d" />
+          <llm>
+            <llm>
+              <model value="anthropic/claude-3-sonnet-20240229" />
+              <provider value="Anthropic" />
+              <title value="Claude 3 Sonnet" />
+            </llm>
+          </llm>
+          <messages>
+            <list>
+              <message>
+                <speaker value="HUMAN" />
+                <text value="Posso colocar um titulo nesse JOptionPane?" />
+              </message>
+              <message>
+                <speaker value="ASSISTANT" />
+                <text value="Sim, é possível colocar um título em um JOptionPane. Basta utilizar o construtor apropriado e passar o título como um dos parâmetros. Aqui está um exemplo:&#10;&#10;```java&#10;JOptionPane.showMessageDialog(null, &quot;Essa é a mensagem do diálogo.&quot;, &quot;Título do Diálogo&quot;, JOptionPane.INFORMATION_MESSAGE);&#10;```&#10;&#10;Neste exemplo, o método `showMessageDialog` é chamado com quatro parâmetros:&#10;&#10;1. `null`: Este é o componente pai do diálogo. Como não temos um componente pai específico, passamos `null`.&#10;2. `&quot;Essa é a mensagem do diálogo.&quot;`: Esta é a mensagem que será exibida no diálogo.&#10;3. `&quot;Título do Diálogo&quot;`: Este é o título que será exibido na barra de título do diálogo.&#10;4. `JOptionPane.INFORMATION_MESSAGE`: Este é o tipo de ícone que será exibido no diálogo. Neste caso, é o ícone de informação.&#10;&#10;Você também pode usar outros métodos do `JOptionPane`, como `showConfirmDialog`, `showInputDialog`, etc., e passar o título como um dos parâmetros.&#10;&#10;Lembre-se de importar a classe `javax.swing.JOptionPane` no início do seu arquivo Java para poder usar essa classe." />
+              </message>
+              <message>
+                <speaker value="HUMAN" />
+                <text value="não tem icone" />
+              </message>
+              <message>
+                <speaker value="ASSISTANT" />
+                <text value="Se você não deseja exibir nenhum ícone no JOptionPane, basta omitir o último parâmetro do método `showMessageDialog`. Aqui está um exemplo:&#10;&#10;```java&#10;JOptionPane.showMessageDialog(null, &quot;Nicole Conner&quot;, &quot;Título do Diálogo&quot;);&#10;```&#10;&#10;Neste caso, o método `showMessageDialog` é chamado com três parâmetros:&#10;&#10;1. `null`: Este é o componente pai do diálogo. Como não temos um componente pai específico, passamos `null`.&#10;2. `&quot;Nicole Conner&quot;`: Esta é a mensagem que será exibida no diálogo.&#10;3. `&quot;Título do Diálogo&quot;`: Este é o título que será exibido na barra de título do diálogo.&#10;&#10;Ao omitir o último parâmetro, nenhum ícone será exibido no diálogo.&#10;&#10;Lembre-se de importar a classe `javax.swing.JOptionPane` no início do seu arquivo Java para poder usar essa classe." />
+              </message>
+              <message>
+                <speaker value="HUMAN" />
+                <text value="Eu quero exibir o icone, como faço isso?" />
+              </message>
+              <message>
+                <speaker value="ASSISTANT" />
+                <text value="Para exibir um ícone específico no JOptionPane, você precisa passar o tipo de ícone como o quarto parâmetro do método `showMessageDialog`. Aqui está um exemplo de como exibir o ícone de informação:&#10;&#10;```java&#10;JOptionPane.showMessageDialog(null, &quot;Nicole Conner&quot;, &quot;Título do Diálogo&quot;, JOptionPane.INFORMATION_MESSAGE);&#10;```&#10;&#10;Neste exemplo, o método `showMessageDialog` é chamado com quatro parâmetros:&#10;&#10;1. `null`: Este é o componente pai do diálogo. Como não temos um componente pai específico, passamos `null`.&#10;2. `&quot;Nicole Conner&quot;`: Esta é a mensagem que será exibida no diálogo.&#10;3. `&quot;Título do Diálogo&quot;`: Este é o título que será exibido na barra de título do diálogo.&#10;4. `JOptionPane.INFORMATION_MESSAGE`: Este é o tipo de ícone que será exibido no diálogo. Neste caso, é o ícone de informação.&#10;&#10;Você pode usar diferentes tipos de ícones, substituindo o último parâmetro por um dos seguintes valores:&#10;&#10;- `JOptionPane.ERROR_MESSAGE`: Exibe o ícone de erro.&#10;- `JOptionPane.WARNING_MESSAGE`: Exibe o ícone de aviso.&#10;- `JOptionPane.QUESTION_MESSAGE`: Exibe o ícone de pergunta.&#10;- `JOptionPane.PLAIN_MESSAGE`: Não exibe nenhum ícone.&#10;&#10;Lembre-se de importar a classe `javax.swing.JOptionPane` no início do seu arquivo Java para poder usar essa classe." />
+              </message>
+            </list>
+          </messages>
+          <updatedAt value="2024-04-29T22:48:20.1266742" />
+        </chat>
       </list>
     </chats>
     <defaultLlm>
