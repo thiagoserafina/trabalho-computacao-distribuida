@@ -7,10 +7,10 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Leitor implements Runnable {
-    private File arquivo;
-    private String nome;
-    private AtomicBoolean encontrado;
-    private long tempoInicial;
+    private final File arquivo;
+    private final String nome;
+    private final AtomicBoolean encontrado;
+    private final long tempoInicial;
 
     public Leitor(File arquivo, String nome, AtomicBoolean encontrado, long tempoInicial) {
         this.arquivo = arquivo;
@@ -21,27 +21,24 @@ public class Leitor implements Runnable {
 
     @Override
     public void run() {
-        try {
-            if (!encontrado.get()) {
-                Scanner scan = new Scanner(arquivo);
-                int linha = 0;
-                while (scan.hasNextLine()) {
-                    linha++;
-                    String linhaAtual = scan.nextLine();
-                    if (nome.equals(linhaAtual)) {
-                        encontrado.set(true);
-                        long tempoFinal = System.currentTimeMillis();
-                        System.out.println("O método foi executado em " + (tempoFinal - tempoInicial) + "ms");
-                        JOptionPane.showMessageDialog(null,
-                                "Nome Encontrado" + "\nArquivo: " + arquivo.getName() + "\nLinha: " + linha);
+        try (Scanner scan = new Scanner(arquivo)) {
+            int linha = 0;
 
-                        break;
-                    }
+            while (scan.hasNextLine() && !encontrado.get()) {
+                linha++;
+                String linhaAtual = scan.nextLine();
+
+                if (nome.equals(linhaAtual)) {
+                    encontrado.set(true);
+                    long tempoFinal = System.currentTimeMillis();
+                    Thread.currentThread().interrupt();
+                    JOptionPane.showMessageDialog(null,
+                            "Arquivo: " + arquivo.getName() + "\nLinha: " + linha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
+                            "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
                 }
-                scan.close();
             }
-        } catch (FileNotFoundException e) {
-            JOptionPane.showConfirmDialog(null, "Arquivo não encontrado");
+        } catch (FileNotFoundException | RuntimeException e) {
+            JOptionPane.showMessageDialog(null, "Arquivo não encontrado");
         }
     }
 }
