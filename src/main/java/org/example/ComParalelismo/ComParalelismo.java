@@ -36,6 +36,14 @@ public class ComParalelismo {
                 System.err.println(e);
             }
         }
+
+        for (Thread thread : threads) {
+            if (thread.isAlive()) {
+                System.out.println("Thread " + thread.getName() + " não parou");
+                thread.interrupt();
+            }
+        }
+
         if (!encontrado.get()) {
             JOptionPane.showMessageDialog(null, "Nome não encontrado", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
