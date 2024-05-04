@@ -1,6 +1,4 @@
-package org.example;
-
-import util.Threads.Leitor;
+package org.example.ComParalelismo;
 
 import javax.swing.*;
 import java.io.File;
@@ -34,14 +32,6 @@ public class ComParalelismo {
                 e.printStackTrace();
             }
         }
-
-        for (Thread thread : threads) {
-            if (thread.isAlive()) {
-                System.out.println("Thread " + thread.getName() + " não parou");
-                thread.interrupt();
-            }
-        }
-
         if (!encontrado.get()) {
             JOptionPane.showMessageDialog(null, "Nome não encontrado");
         }

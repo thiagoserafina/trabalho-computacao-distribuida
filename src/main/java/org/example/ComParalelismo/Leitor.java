@@ -1,4 +1,4 @@
-package util.Threads;
+package org.example.ComParalelismo;
 
 import javax.swing.*;
 import java.io.File;
