@@ -1,7 +1,5 @@
 package org.example.ComParalismo2Thread;
 
-import org.example.ComParalelismo.Leitor;
-
 import javax.swing.*;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,6 +9,10 @@ public class ComParalelismo2 {
 
     public static void main(String[] args) {
         String nome = JOptionPane.showInputDialog("Informe um Nome para a Busca");
+
+        if (nome == null || nome.isEmpty()) {
+            System.exit(0);
+        }
 
         File[] arquivos;
         File diretorio = new File("arquivoTXT");
