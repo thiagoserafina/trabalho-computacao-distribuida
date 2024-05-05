@@ -35,6 +35,7 @@ public class Leitor implements Runnable {
                     JOptionPane.showMessageDialog(null,
                             "Arquivo: " + arquivo.getName() + "\nLinha: " + linha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
                             "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
+                    break;
                 }
             }
         } catch (FileNotFoundException | RuntimeException e) {

@@ -32,7 +32,7 @@ public class Leitor extends Thread {
                     long tempoFinal = System.currentTimeMillis();
                     Thread.currentThread().interrupt();
                     JOptionPane.showMessageDialog(null,
-                            "Arquivo: " + arquivo.getName() + "\nLinha: " + linha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
+                            "Arquivo: " + arquivo.getName() + "\nLinha: " + numeroLinha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
                             "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 }
