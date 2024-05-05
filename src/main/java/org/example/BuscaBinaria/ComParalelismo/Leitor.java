@@ -40,9 +40,9 @@ public class Leitor implements Runnable {
                             "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 } else if (comparacao < 0) {
-                    fim = meio - 1; // Procurar na metade inferior
+                    fim = meio - 1;
                 } else {
-                    inicio = meio + 1; // Procurar na metade superior
+                    inicio = meio + 1;
                 }
             }
         } else {
@@ -57,7 +57,7 @@ public class Leitor implements Runnable {
             while ((linha = br.readLine()) != null) {
                 nomes.add(linha);
             }
-            // Ordena os nomes
+
             Collections.sort(nomes);
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());

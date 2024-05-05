@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SemParalelismo {
-
     public static void main(String[] args) {
         String nome = JOptionPane.showInputDialog("Informe um Nome para a Busca");
 
@@ -25,22 +24,15 @@ public class SemParalelismo {
 
         for(int i = 0; i < arquivos.length; i++){
             List<String> nomesOrdenados = lerNomesEOrdenar(arquivos[i].getPath());
-            System.out.println(nomesOrdenados.get(4999));
-            // Verifica se a lista foi ordenada com sucesso
-            if (nomesOrdenados != null) {
-                // Realiza a busca binária
-                int indice = buscaBinaria(nomesOrdenados, nome);
-                // Verifica se o nome foi encontrado
-                if (indice != -1) {
-                    tempoFinal = System.currentTimeMillis();
-                    int linha = pegarLinha(nome ,arquivos[i].getPath());
-                    JOptionPane.showMessageDialog(null,
-                            "Arquivo: " + arquivos[i].getName() + "\nLinha: " + linha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
-                            "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
-                    break;
-                }
-            } else {
-                System.out.println("Erro ao ler os nomes do arquivo.");
+
+            int indice = buscaBinaria(nomesOrdenados, nome);
+            if (indice != -1) {
+                tempoFinal = System.currentTimeMillis();
+                int linha = pegarLinha(nome ,arquivos[i].getPath());
+                JOptionPane.showMessageDialog(null,
+                        "Arquivo: " + arquivos[i].getName() + "\nLinha: " + linha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
+                        "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
+                break;
             }
         }
     }
@@ -49,10 +41,11 @@ public class SemParalelismo {
         List<String> nomes = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
             String linha;
+
             while ((linha = br.readLine()) != null) {
                 nomes.add(linha);
             }
-            // Ordena os nomes
+
             Collections.sort(nomes);
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + e.getMessage());
@@ -70,14 +63,14 @@ public class SemParalelismo {
             int comparacao = nomeBuscado.compareTo(nomes.get(meio));
 
             if (comparacao == 0) {
-                return meio; // Nome encontrado
+                return meio;
             } else if (comparacao < 0) {
-                fim = meio - 1; // Procurar na metade inferior
+                fim = meio - 1;
             } else {
-                inicio = meio + 1; // Procurar na metade superior
+                inicio = meio + 1;
             }
         }
-        return -1; // Nome não encontrado
+        return -1;
     }
 
     private static int pegarLinha(String nome, String nomeArquivo) {
