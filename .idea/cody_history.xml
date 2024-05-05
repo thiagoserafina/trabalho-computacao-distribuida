@@ -249,6 +249,17 @@
           </messages>
           <updatedAt value="2024-05-04T20:57:19.7834213" />
         </chat>
+        <chat>
+          <accountId value="VXNlcjozMjUwNDA=" />
+          <internalId value="399f4aa1-e777-459f-9c0b-d0bef7d44326" />
+          <llm>
+            <llm>
+              <model value="anthropic/claude-3-sonnet-20240229" />
+              <provider value="Anthropic" />
+              <title value="Claude 3 Sonnet" />
+            </llm>
+          </llm>
+        </chat>
       </list>
     </chats>
     <defaultLlm>

@@ -1,4 +1,4 @@
-package org.example.SemParalelismo;
+package org.example.BuscaSequencial.SemParalelismo;
 
 import javax.swing.*;
 import java.io.*;

@@ -1,12 +1,13 @@
-package org.example.ExtendsThread;
+package org.example.BuscaBinaria.ComParalelismo;
 
 import javax.swing.*;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Main {
+public class ComParalelismo {
     public static void main(String[] args) {
         String nome = JOptionPane.showInputDialog("Informe um Nome para a Busca");
+        AtomicBoolean encontrado = new AtomicBoolean(false);
 
         if (nome == null || nome.isEmpty()) {
             System.exit(0);
@@ -16,19 +17,17 @@ public class Main {
         File diretorio = new File("arquivoTXT");
         arquivos = diretorio.listFiles();
 
-        AtomicBoolean encontrado = new AtomicBoolean(false);
-
         long tempoInicial = System.currentTimeMillis();
 
         assert arquivos != null;
-        Leitor[] threads = new Leitor[arquivos.length];
+        Thread[] threads = new Thread[arquivos.length];
 
         for (int i = 0; i < arquivos.length; i++) {
             final File arquivo = arquivos[i];
-            threads[i] = new Leitor(arquivo, nome, encontrado, tempoInicial);
+            threads[i] = new Thread(new Leitor(arquivo, nome, encontrado, tempoInicial));
             threads[i].start();
         }
-        
+
         for (Thread thread : threads) {
             try {
                 thread.join();
@@ -45,8 +44,7 @@ public class Main {
         }
 
         if (!encontrado.get()) {
-            System.out.println("Nome não encontrado em nenhum arquivo.");
+            JOptionPane.showMessageDialog(null, "Nome não encontrado", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
-

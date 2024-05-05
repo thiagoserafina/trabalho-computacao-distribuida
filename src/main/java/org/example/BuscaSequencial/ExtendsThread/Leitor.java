@@ -1,11 +1,13 @@
-package org.example.ComParalelismo;
+package org.example.BuscaSequencial.ExtendsThread;
 
 import javax.swing.*;
-import java.io.*;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Leitor implements Runnable {
+public class Leitor extends Thread {
     private File arquivo;
     private String nome;
     private AtomicBoolean encontrado;
@@ -24,7 +26,7 @@ public class Leitor implements Runnable {
             String linha;
             int numeroLinha = 1;
 
-            while ((linha = reader.readLine()) != null && !encontrado.get()) {
+            while ((linha = reader.readLine()) != null) {
                 if (linha.equals(nome)) {
                     encontrado.set(true);
                     long tempoFinal = System.currentTimeMillis();

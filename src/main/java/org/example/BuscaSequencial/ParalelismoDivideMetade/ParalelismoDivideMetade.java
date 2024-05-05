@@ -1,4 +1,4 @@
-package org.example.ParalelismoDivideMetade;
+package org.example.BuscaSequencial.ParalelismoDivideMetade;
 
 import javax.swing.*;
 import java.io.File;
