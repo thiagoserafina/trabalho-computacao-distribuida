@@ -25,7 +25,7 @@ public class Main {
 
         for (int i = 0; i < arquivos.length; i++) {
             final File arquivo = arquivos[i];
-            threads[i] = new Leitor(arquivo, nome, encontrado);
+            threads[i] = new Leitor(arquivo, nome, encontrado, tempoInicial);
             threads[i].start();
         }
         for (Thread thread : threads) {

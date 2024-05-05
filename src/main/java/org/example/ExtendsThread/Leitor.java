@@ -1,5 +1,6 @@
 package org.example.ExtendsThread;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,11 +11,13 @@ public class Leitor extends Thread {
     private File arquivo;
     private String nome;
     private AtomicBoolean encontrado;
+    private long tempoInicial;
 
-    public Leitor(File arquivo, String nome, AtomicBoolean encontrado) {
+    public Leitor(File arquivo, String nome, AtomicBoolean encontrado, long tempoinicial) {
         this.arquivo = arquivo;
         this.nome = nome;
         this.encontrado = encontrado;
+        this.tempoInicial = tempoinicial;
     }
 
     @Override
@@ -26,7 +29,11 @@ public class Leitor extends Thread {
             while ((linha = reader.readLine()) != null) {
                 if (linha.equals(nome)) {
                     encontrado.set(true);
-                    System.out.println("Nome encontrado no arquivo: " + arquivo.getName() + ", linha: " + numeroLinha);
+                    long tempoFinal = System.currentTimeMillis();
+                    Thread.currentThread().interrupt();
+                    JOptionPane.showMessageDialog(null,
+                            "Arquivo: " + arquivo.getName() + "\nLinha: " + linha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
+                            "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
                     break;
                 }
                 numeroLinha++;
