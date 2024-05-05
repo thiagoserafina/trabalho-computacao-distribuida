@@ -5,11 +5,10 @@ import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ComParalelismo {
-    private static final AtomicBoolean encontrado = new AtomicBoolean(false);
-
     public static void main(String[] args) {
         String nome = JOptionPane.showInputDialog("Informe um Nome para a Busca");
-
+        AtomicBoolean encontrado = new AtomicBoolean(false);
+        
         if (nome == null || nome.isEmpty()) {
             System.exit(0);
         }

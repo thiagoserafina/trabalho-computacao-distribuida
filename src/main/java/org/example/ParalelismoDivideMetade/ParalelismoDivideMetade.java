@@ -28,8 +28,8 @@ public class ParalelismoDivideMetade {
 
         for (int i = 0; i < arquivos.length; i++) {
             final File arquivo = arquivos[i];
-            threads[j] = new Leitor(arquivo, nome, encontrado, tempoInicial, 1, midPoint);
-            threads[j+1] = new Leitor(arquivo, nome, encontrado, tempoInicial, midPoint + 1, totalLines);
+            threads[j] = new Thread(new Leitor(arquivo, nome, encontrado, tempoInicial, 1, midPoint));
+            threads[j+1] = new Thread(new Leitor(arquivo, nome, encontrado, tempoInicial, midPoint + 1, totalLines));
             threads[j].start();
             threads[j+1].start();
             j += 2;

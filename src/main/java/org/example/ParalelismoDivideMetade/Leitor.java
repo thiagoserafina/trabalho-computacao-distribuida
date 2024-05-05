@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Leitor extends Thread {
+public class Leitor implements Runnable {
     private final File arquivo;
     private final String nome;
     private final AtomicBoolean encontrado;
@@ -24,7 +24,7 @@ public class Leitor extends Thread {
     @Override
     public void run() {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-            int numeroLinha = 0;
+            int numeroLinha = startLine - 1;
             String linhaAtual;
 
             for (int i = 1; i < startLine; i++) {

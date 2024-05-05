@@ -28,6 +28,7 @@ public class Main {
             threads[i] = new Leitor(arquivo, nome, encontrado, tempoInicial);
             threads[i].start();
         }
+        
         for (Thread thread : threads) {
             try {
                 thread.join();
@@ -35,13 +36,14 @@ public class Main {
                 System.err.println(e);
             }
         }
+
         for (Thread thread : threads) {
             if (thread.isAlive()) {
                 System.out.println("Thread " + thread.getName() + " não parou");
                 thread.interrupt();
             }
         }
-        // Verificar se o nome foi encontrado
+
         if (!encontrado.get()) {
             System.out.println("Nome não encontrado em nenhum arquivo.");
         }

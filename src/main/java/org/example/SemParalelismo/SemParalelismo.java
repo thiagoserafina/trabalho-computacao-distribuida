@@ -1,9 +1,7 @@
 package org.example.SemParalelismo;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.*;
 
 public class SemParalelismo {
     public static void main(String[] args) {
@@ -21,19 +19,21 @@ public class SemParalelismo {
         long tempoFinal;
 
         for (int i = 0; i < arquivos.length; i++) {
-            try (Scanner scan = new Scanner(arquivos[i])) {
-                int linha = 0;
+            try (BufferedReader reader = new BufferedReader(new FileReader(arquivos[i]))) {
+                String linha;
+                int numeroLinha = 1;
 
-                while (scan.hasNextLine()) {
-                    linha++;
-                    if (nome.equals(scan.nextLine())) {
+                while ((linha = reader.readLine()) != null) {
+                    if (linha.equals(nome)) {
                         tempoFinal = System.currentTimeMillis();
                         JOptionPane.showMessageDialog(null,
-                                "Arquivo: " + arquivos[i].getName() + "\nLinha: " + linha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms", "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
+                                "Arquivo: " + arquivos[i].getName() + "\nLinha: " + numeroLinha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
+                                "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
                         return;
                     }
+                    numeroLinha++;
                 }
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Arquivo não encontrado");
             }
         }
