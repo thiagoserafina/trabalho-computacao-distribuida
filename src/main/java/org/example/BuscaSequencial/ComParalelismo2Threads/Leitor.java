@@ -1,4 +1,4 @@
-package org.example.BuscaSequencial.ParalelismoDivideMetade;
+package org.example.BuscaSequencial.ComParalelismo2Threads;
 
 import javax.swing.*;
 import java.io.*;

@@ -1,10 +1,10 @@
-package org.example.BuscaSequencial.ParalelismoDivideMetade;
+package org.example.BuscaSequencial.ComParalelismo2Threads;
 
 import javax.swing.*;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ParalelismoDivideMetade {
+public class ComParalelismo2Threads {
     private static final AtomicBoolean encontrado = new AtomicBoolean(false);
 
     public static void main(String[] args) {
