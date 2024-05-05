@@ -25,6 +25,7 @@ public class SemParalelismo {
 
         for(int i = 0; i < arquivos.length; i++){
             List<String> nomesOrdenados = lerNomesEOrdenar(arquivos[i].getPath());
+            System.out.println(nomesOrdenados.get(4999));
             // Verifica se a lista foi ordenada com sucesso
             if (nomesOrdenados != null) {
                 // Realiza a busca binária
@@ -36,6 +37,7 @@ public class SemParalelismo {
                     JOptionPane.showMessageDialog(null,
                             "Arquivo: " + arquivos[i].getName() + "\nLinha: " + linha + "\nTempo de execução: " + (tempoFinal - tempoInicial) + "ms",
                             "Nome encontrado", JOptionPane.INFORMATION_MESSAGE);
+                    break;
                 }
             } else {
                 System.out.println("Erro ao ler os nomes do arquivo.");
